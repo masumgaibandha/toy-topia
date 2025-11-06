@@ -12,7 +12,6 @@ import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 
-
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
@@ -35,8 +34,6 @@ const Login = () => {
         toast.error("Please Input Valid Credential");
       });
 
-    
-
     console.log(user);
 
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -47,9 +44,10 @@ const Login = () => {
       return;
     }
   };
-const handleGoogleLogin = () => {
-  console.log('google signined')
-      signInWithPopup(auth, googleProvider).then((res) => {
+  const handleGoogleLogin = () => {
+    console.log("google signined");
+    signInWithPopup(auth, googleProvider)
+      .then((res) => {
         setUser(res.user);
         console.log(res);
         toast.success("Login Successful");
@@ -58,7 +56,7 @@ const handleGoogleLogin = () => {
         console.log(e);
         toast.error("Please Input Valid Credential");
       });
-    };
+  };
 
   const handleLogout = () => {
     signOut(auth)
