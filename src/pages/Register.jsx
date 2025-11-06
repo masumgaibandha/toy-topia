@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
@@ -11,16 +11,13 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    const name = e.target.name?.value;
-    const photo = e.target.photo?.value;
+    const displayName = e.target.name?.value;
+    const photoURL = e.target.photo?.value;
     const email = e.target.email?.value;
     const password = e.target.password?.value;
-    console.log("Sign up function clicked", { email, password, name, photo });
-    // if(password.length < 6 ){
-    //   toast.error("Password should be at least 6")
-    //   return;
-    // }
-
+    console.log("Sign up function clicked", { email, password, displayName, photoURL });
+    
+    
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
       toast.error(
@@ -31,7 +28,15 @@ const Register = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
+      updateProfile(res.user, {
+         displayName, 
+         photoURL,
+      }).then(res=>{
         toast.success("Register Successful");
+      }).catch((e)=>{
+        toast.error(e.message)
+      })
+        
       })
       .catch((e) => {
         console.log(e);
