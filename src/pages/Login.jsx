@@ -1,25 +1,23 @@
-import {
-  GoogleAuthProvider,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
 import React, { use, useRef, useState } from "react";
 import { Link } from "react-router";
-import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
 
-const googleProvider = new GoogleAuthProvider();
+// const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
-  const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
-  const {signWithEmailAndPasswordFunc, signWithEmailFunc} = use(AuthContext)
+  const {
+    signWithEmailAndPasswordFunc, 
+    signWithEmailFunc,
+    signOutWithUserFunc,
+    sendPassResetFunc,
+    user,
+    setUser,
+  } = use(AuthContext)
 
   const emailRef= useRef(null)
 
@@ -48,7 +46,7 @@ const Login = () => {
 
  
 
-    const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+  const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
       toast.error(
         "Password must be at least 6 characters long and contain both uppercase and lowercase letters."
@@ -70,23 +68,15 @@ const Login = () => {
       });
   };
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        toast.success("Log Out Successful");
-        setUser(null);
-      })
-      .catch((e) => {
-        toast.error(e.message);
-      });
-  };
-  const handleForgetPassword =(e)=>{
+  
+
+  const handleForgetPassword =()=>{
 // console.log(e.target.email)
-console.log(emailRef.current.value)
+// console.log(emailRef.current.value)
 
 const email = emailRef.current.value
 
-   sendPasswordResetEmail(auth, email)
+   sendPassResetFunc(email)
    .then((res)=>{
     toast.success('Check email to reset password')
    }).catch((e)=>{
@@ -96,23 +86,6 @@ const email = emailRef.current.value
 
   return (
     <div>
-      {user ? (
-        <div className="text-center space-y-3 mt-5">
-          <img
-            src={user.photoURL || "https://i.ibb.co/fYhsqxNB/Masum2.jpg"}
-            alt=""
-            className="h-20 w-20 rounded-full mx-auto"
-          />
-          <h2 className="text-xl font-semibold">{user?.displayName}</h2>
-          <p className="">{user?.email}</p>
-          <button
-            onClick={handleLogout}
-            className="btn bg-[#EA4A30] rounded text-white"
-          >
-            Log Out
-          </button>
-        </div>
-      ) : (
         <form
           onSubmit={handleLogin}
           className="container mx-auto py-5 flex justify-center min-h-screen items-center"
@@ -194,7 +167,6 @@ const email = emailRef.current.value
             </div>
           </div>
         </form>
-      )}
     </div>
   );
 };

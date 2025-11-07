@@ -3,7 +3,7 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import React, { use, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
@@ -14,7 +14,11 @@ import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const [show, setShow] = useState(false);
-  const { createUserWithEmailAndPasswordFunc, signWithEmailFunc } = use(AuthContext);
+  const { createUserWithEmailAndPasswordFunc, 
+    signWithEmailFunc, 
+    updateProfileFunc, 
+    sendEmailVerificationFunc,
+  } = useContext(AuthContext);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -35,13 +39,11 @@ const Register = () => {
     // createUserWithEmailAndPassword(auth, email, password)
     createUserWithEmailAndPasswordFunc(email, password)
       .then((res) => {
-        updateProfile(res.user, {
-          displayName,
-          photoURL,
-        })
+
+        updateProfileFunc(displayName, photoURL)
           .then(() => {
             // Email verification
-            sendEmailVerification(res.user)
+            sendEmailVerificationFunc()
               .then((res) => {
                 console.log(res);
                 toast.success("Register Successful");
