@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
@@ -31,8 +31,18 @@ const Register = () => {
       updateProfile(res.user, {
          displayName, 
          photoURL,
-      }).then(res=>{
-        toast.success("Register Successful");
+      }).then(()=>{
+        // Email verification
+        sendEmailVerification(res.user)
+        .then((res)=>{
+          console.log(res);
+          toast.success("Register Successful");
+        }).catch((e)=>{
+          toast.error(e.message)
+        })
+        // Verification ended
+
+        // toast.success("Register Successful");
       }).catch((e)=>{
         toast.error(e.message)
       })

@@ -1,10 +1,11 @@
 import {
   GoogleAuthProvider,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
@@ -18,13 +19,22 @@ const Login = () => {
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
 
+  const emailRef= useRef(null)
+
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email?.value;
     const password = e.target.password?.value;
-    console.log("Sign in function clicked", { email, password });
+    console.log({ email, password });
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
+        // Will be delete
+        if(!res.user?.emailVerified){
+          toast.error("Your email is not verified")
+          return;
+        }
+        // Delete above
         setUser(res.user);
         console.log(res);
         toast.success("Login Successful");
@@ -34,7 +44,7 @@ const Login = () => {
         toast.error("Please Input Valid Credential");
       });
 
-    console.log(user);
+ 
 
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
@@ -68,6 +78,19 @@ const Login = () => {
         toast.error(e.message);
       });
   };
+  const handleForgetPassword =(e)=>{
+// console.log(e.target.email)
+console.log(emailRef.current.value)
+
+const email = emailRef.current.value
+
+   sendPasswordResetEmail(auth, email)
+   .then((res)=>{
+    toast.success('Check email to reset password')
+   }).catch((e)=>{
+    toast.error(e.message)
+   })
+  }
 
   return (
     <div>
@@ -103,6 +126,7 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
+                  ref={emailRef}
                   required
                   className="input bg-base-200"
                   placeholder="Enter your email address"
@@ -125,8 +149,15 @@ const Login = () => {
                 </span>
 
                 <div>
-                  <a className="link link-hover">Forgot password?</a>
+                  <button 
+                  className="hover:underline cursor-pointer" 
+                  onClick={handleForgetPassword}
+                  type="button"
+                  >Forgot password?</button>
+                  {/* <a className="link link-hover">Forgot password?</a> */}
                 </div>
+
+
                 {/* {error && <p className="text-red-500">{error}</p>} */}
                 <button
                   type="submit"
