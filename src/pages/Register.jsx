@@ -4,7 +4,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import React, { use, useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
@@ -18,7 +18,13 @@ const Register = () => {
     signWithEmailFunc, 
     updateProfileFunc, 
     sendEmailVerificationFunc,
+    setLoading,
+    signOutWithUserFunc, 
+    setUser,
+
   } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -26,6 +32,7 @@ const Register = () => {
     const photoURL = e.target.photo?.value;
     const email = e.target.email?.value;
     const password = e.target.password?.value;
+
     // console.log("Sign up function clicked", { email, password, displayName, photoURL });
 
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -46,7 +53,17 @@ const Register = () => {
             sendEmailVerificationFunc()
               .then((res) => {
                 console.log(res);
-                toast.success("Register Successful");
+                setLoading(false);
+                
+
+                signOutWithUserFunc()
+                      .then(() => {
+                        toast.success("Register Successful");
+                        setUser(null);
+                        navigate("/login")
+
+                      })
+
               })
               .catch((e) => {
                 toast.error(e.message);

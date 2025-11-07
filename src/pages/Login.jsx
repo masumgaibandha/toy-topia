@@ -1,5 +1,5 @@
 import React, { use, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
@@ -17,7 +17,9 @@ const Login = () => {
     sendPassResetFunc,
     user,
     setUser,
+    setLoading,
   } = use(AuthContext)
+  const navigate = useNavigate();
 
   const emailRef= useRef(null)
 
@@ -29,6 +31,7 @@ const Login = () => {
     console.log({ email, password });
     signWithEmailAndPasswordFunc(email, password)
       .then((res) => {
+        // setLoading(false);
         // Will be delete
         if(!res.user?.emailVerified){
           toast.error("Your email is not verified")
@@ -38,6 +41,7 @@ const Login = () => {
         setUser(res.user);
         console.log(res);
         toast.success("Login Successful");
+        navigate("/")
       })
       .catch((e) => {
         console.log(e);
@@ -58,6 +62,7 @@ const Login = () => {
     console.log("google signined");
     signWithEmailFunc()
       .then((res) => {
+        setLoading(false);
         setUser(res.user);
         console.log(res);
         toast.success("Login Successful");
@@ -78,6 +83,7 @@ const email = emailRef.current.value
 
    sendPassResetFunc(email)
    .then((res)=>{
+    setLoading(false);
     toast.success('Check email to reset password')
    }).catch((e)=>{
     toast.error(e.message)

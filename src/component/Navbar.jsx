@@ -4,9 +4,10 @@ import { Link, NavLink } from "react-router";
 import MyLink from "./MyLink";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { BounceLoader, ClockLoader } from "react-spinners";
 
 const Navbar = () => {
-  const { user, signOutWithUserFunc, setUser } = use(AuthContext);
+  const { user, signOutWithUserFunc, setUser, loading, setLoading } = use(AuthContext);
   console.log(user);
 
   const handleLogout = () => {
@@ -35,7 +36,7 @@ const Navbar = () => {
             <MyLink to={"/profile"}>Profile</MyLink>
           </div>
 
-          {user ? (
+          {loading ? (<ClockLoader color="#EA4A30" />) : user ? (
             <div className="text-center space-y-3 mt-5">
               
               <button
@@ -64,7 +65,8 @@ const Navbar = () => {
               <p className="">{user?.email}</p>
               <button
                 onClick={handleLogout}
-                className="btn bg-[#EA4A30] rounded text-white"
+                className="btn bg-[#EA4A30] w-full rounded text-white"
+                
               >
                 Log Out
               </button>
