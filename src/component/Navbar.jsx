@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { use} from 'react'
 import MyContainer from './MyContainer'
 import { Link, NavLink } from 'react-router'
 import MyLink from './MyLink'
+import { AuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
+  
+  const result = use(AuthContext)
+  console.log(result)
+
   return (
     <div  className="bg-base-100 shadow">
        

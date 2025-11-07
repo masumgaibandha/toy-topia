@@ -1,13 +1,20 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
-import React, { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
+import { AuthContext } from "../context/AuthContext";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const [show, setShow] = useState(false);
+  const { createUserWithEmailAndPasswordFunc, signWithEmailFunc } = use(AuthContext);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -15,9 +22,8 @@ const Register = () => {
     const photoURL = e.target.photo?.value;
     const email = e.target.email?.value;
     const password = e.target.password?.value;
-    console.log("Sign up function clicked", { email, password, displayName, photoURL });
-    
-    
+    // console.log("Sign up function clicked", { email, password, displayName, photoURL });
+
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
       toast.error(
@@ -26,33 +32,49 @@ const Register = () => {
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password)
+    // createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPasswordFunc(email, password)
       .then((res) => {
-      updateProfile(res.user, {
-         displayName, 
-         photoURL,
-      }).then(()=>{
-        // Email verification
-        sendEmailVerification(res.user)
-        .then((res)=>{
-          console.log(res);
-          toast.success("Register Successful");
-        }).catch((e)=>{
-          toast.error(e.message)
+        updateProfile(res.user, {
+          displayName,
+          photoURL,
         })
-        // Verification ended
+          .then(() => {
+            // Email verification
+            sendEmailVerification(res.user)
+              .then((res) => {
+                console.log(res);
+                toast.success("Register Successful");
+              })
+              .catch((e) => {
+                toast.error(e.message);
+              });
+            // Verification ended
 
-        // toast.success("Register Successful");
-      }).catch((e)=>{
-        toast.error(e.message)
-      })
-        
+            // toast.success("Register Successful");
+          })
+          .catch((e) => {
+            toast.error(e.message);
+          });
       })
       .catch((e) => {
         console.log(e);
         toast.error("User already registered");
       });
   };
+
+const handleGoogleLogin = () => {
+  signWithEmailFunc()
+    .then((res) => {
+      toast.success("Register Successful with Google");
+      console.log(res.user);
+    })
+    .catch((e) => {
+      console.error(e);
+      toast.error("Google Sign-In Failed");
+    });
+};
+
   return (
     <div>
       <form
@@ -118,6 +140,17 @@ const Register = () => {
               >
                 Register
               </button>
+
+              {/* Google login button */}
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="btn mt-2 cursor-pointer"
+              >
+                <FcGoogle size={24} />
+                Continue with Google
+              </button>
+
               <p className="text-center pt-5 font-semibold">
                 Already have account ?{" "}
                 <Link to="/login" className="text-red-600 underline">

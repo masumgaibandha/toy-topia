@@ -5,19 +5,21 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../context/AuthContext";
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
+  const {signWithEmailAndPasswordFunc, signWithEmailFunc} = use(AuthContext)
 
   const emailRef= useRef(null)
 
@@ -27,7 +29,7 @@ const Login = () => {
     const email = e.target.email?.value;
     const password = e.target.password?.value;
     console.log({ email, password });
-    signInWithEmailAndPassword(auth, email, password)
+    signWithEmailAndPasswordFunc(email, password)
       .then((res) => {
         // Will be delete
         if(!res.user?.emailVerified){
@@ -56,7 +58,7 @@ const Login = () => {
   };
   const handleGoogleLogin = () => {
     console.log("google signined");
-    signInWithPopup(auth, googleProvider)
+    signWithEmailFunc()
       .then((res) => {
         setUser(res.user);
         console.log(res);
