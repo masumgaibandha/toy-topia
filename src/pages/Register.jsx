@@ -33,7 +33,7 @@ const Register = () => {
     const email = e.target.email?.value;
     const password = e.target.password?.value;
 
-    // console.log("Sign up function clicked", { email, password, displayName, photoURL });
+    
 
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
@@ -43,7 +43,6 @@ const Register = () => {
       return;
     }
 
-    // createUserWithEmailAndPassword(auth, email, password)
     createUserWithEmailAndPasswordFunc(email, password)
       .then((res) => {
 
@@ -52,7 +51,7 @@ const Register = () => {
             // Email verification
             sendEmailVerificationFunc()
               .then((res) => {
-                console.log(res);
+                
                 setLoading(false);
                 
 
@@ -77,7 +76,7 @@ const Register = () => {
           });
       })
       .catch((e) => {
-        console.log(e);
+        
         toast.error("User already registered");
       });
   };
@@ -86,11 +85,13 @@ const handleGoogleLogin = () => {
   signWithEmailFunc()
     .then((res) => {
       toast.success("Register Successful with Google");
-      console.log(res.user);
+     
+      navigate("/")
     })
     .catch((e) => {
-      console.error(e);
+     
       toast.error("Google Sign-In Failed");
+      
     });
 };
 

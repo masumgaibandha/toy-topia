@@ -1,5 +1,5 @@
-import React, { use, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import React, { useContext, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
@@ -18,8 +18,14 @@ const Login = () => {
     user,
     setUser,
     setLoading,
-  } = use(AuthContext)
+  } = useContext(AuthContext)
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from =
+    location.state?.from?.pathname ||
+    location.state?.from ||
+    "/"; 
 
   const emailRef= useRef(null)
 
@@ -28,23 +34,23 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email?.value;
     const password = e.target.password?.value;
-    console.log({ email, password });
+   
     signWithEmailAndPasswordFunc(email, password)
       .then((res) => {
         // setLoading(false);
         // Will be delete
-        if(!res.user?.emailVerified){
-          toast.error("Your email is not verified")
-          return;
-        }
+        // if(!res.user?.emailVerified){
+        //   toast.error("Your email is not verified")
+        //   return;
+        // }
         // Delete above
         setUser(res.user);
-        console.log(res);
+        
         toast.success("Login Successful");
-        navigate("/")
+        navigate(from, { replace: true });
       })
       .catch((e) => {
-        console.log(e);
+        
         toast.error("Please Input Valid Credential");
       });
 
@@ -59,16 +65,17 @@ const Login = () => {
     }
   };
   const handleGoogleLogin = () => {
-    console.log("google signined");
+   
     signWithEmailFunc()
       .then((res) => {
         setLoading(false);
         setUser(res.user);
-        console.log(res);
+       
         toast.success("Login Successful");
+        navigate(from, { replace: true });
       })
       .catch((e) => {
-        console.log(e);
+      
         toast.error("Please Input Valid Credential");
       });
   };
@@ -76,8 +83,7 @@ const Login = () => {
   
 
   const handleForgetPassword =()=>{
-// console.log(e.target.email)
-// console.log(emailRef.current.value)
+
 
 const email = emailRef.current.value
 
@@ -135,11 +141,11 @@ const email = emailRef.current.value
                   onClick={handleForgetPassword}
                   type="button"
                   >Forgot password?</button>
-                  {/* <a className="link link-hover">Forgot password?</a> */}
+                  
                 </div>
 
 
-                {/* {error && <p className="text-red-500">{error}</p>} */}
+                
                 <button
                   type="submit"
                   className="btn bg-[#EA4A30] rounded text-white mt-4"

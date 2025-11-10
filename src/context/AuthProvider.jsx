@@ -3,7 +3,6 @@ import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -19,16 +18,9 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const updateProfileFunc = (displayName, photoURL)=>{
-   return updateProfile(auth.currentUser, {
-              displayName,
-              photoURL,
-            })
-  }
-  const sendEmailVerificationFunc = ()=>{
-    setLoading(true);
-    return sendEmailVerification(auth.currentUser)
-  }
+  const updateProfileFunc = (displayName, photoURL) => {
+    return updateProfile(auth.currentUser, { displayName, photoURL });
+  };
 
   const createUserWithEmailAndPasswordFunc = (email, password) => {
     setLoading(true);
@@ -39,20 +31,21 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
   const signWithEmailFunc = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
-  const signOutWithUserFunc = () =>{
+  const signOutWithUserFunc = () => {
     setLoading(true);
-   return signOut(auth)
+    return signOut(auth);
   };
-  const sendPassResetFunc = (email)=>{
-    // setLoading(true);
-    sendPasswordResetEmail(auth, email)
-    
-  }
+
+  const sendPassResetFunc = (email) => {
+    setLoading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
 
   const authInfo = {
     user,
@@ -60,25 +53,22 @@ const AuthProvider = ({ children }) => {
     createUserWithEmailAndPasswordFunc,
     signWithEmailAndPasswordFunc,
     signWithEmailFunc,
-    signOutWithUserFunc, 
-    sendPassResetFunc, 
-    sendEmailVerificationFunc,
+    signOutWithUserFunc,
+    sendPassResetFunc,
     updateProfileFunc,
     loading,
     setLoading,
   };
-  useEffect(()=>{
- const unSubscribe = onAuthStateChanged(auth, (currentUser) =>{
-   console.log(currentUser) 
-   setUser(currentUser)
-   setLoading(false)
-  })
-  return () =>{
-    unSubscribe()
-  }
-  }, [])
-  
-  return <AuthContext value={authInfo}>{children}</AuthContext>;
+
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unSubscribe();
+  }, []);
+
+  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

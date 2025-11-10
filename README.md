@@ -1,16 +1,67 @@
-# React + Vite
+ToyTopia – A Local Kids Toy Store Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ToyTopia is a playful online platform where families can explore, try, and support local toy sellers. Users can browse toys, view detailed info, and experience a smooth login-protected shopping flow.
 
-Currently, two official plugins are available:
+Live URL: https://your-live-site.netlify.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Purpose
 
-## React Compiler
+To build a vibrant, responsive, and engaging single-page web app for kids' toys using React, Firebase, and Tailwind CSS, featuring authentication, protected routes, and dynamic user interactions — all while supporting local toy businesses.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Key Features
 
-## Expanding the ESLint configuration
+Home Page
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Eye-catching slider and Popular Toys section from JSON data
+
+Category filter (All, Building Blocks, STEM, Stuffed Animals, Puzzles)
+
+Extra sections: “Shop Local” and “Top Categories”
+
+Protected Routes
+
+/toy/:id → Toy Details + “Try Now” form (toast message)
+
+/profile → Editable user profile (name & photoURL)
+
+/my-toys → Extra private route for user’s toy list (example)
+
+Authentication
+
+Email/password + Google sign-in
+
+Password validation (min 6 chars, 1 uppercase, 1 lowercase)
+
+Forgot Password flow (pre-filled email + Gmail redirect)
+
+App Behavior
+
+Persistent user session (onAuthStateChanged)
+
+Dynamic document titles per route
+
+Loader while Firebase initializes
+
+UI / UX
+
+Fully responsive (mobile → desktop)
+
+Unified theme color: #EA4A30
+
+Navbar & Footer on all pages (except 404)
+
+404 Page
+
+Custom error page with navigation back to Home
+
+NPM Packages Used
+Package	Purpose
+react, react-dom	Core React library
+react-router	Routing for SPA
+firebase	Authentication (email + Google)
+react-toastify	Toast notifications
+react-icons	Icons (Google, Eye toggle, etc.)
+react-spinners	Loading indicators
+tailwindcss	CSS utility framework
+daisyui	Tailwind UI components
+vite	Fast build tool and dev server

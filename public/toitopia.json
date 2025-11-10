@@ -1,0 +1,122 @@
+[
+  {
+    "toyId": 1,
+    "toyName": "Lego Classic Bricks",
+    "sellerName": "Toys R Us Local",
+    "sellerEmail": "contact@toysruslocal.com",
+    "price": 49.99,
+    "rating": 4.7,
+    "availableQuantity": 75,
+    "description": "A timeless set of colorful Lego bricks that encourages creativity and problem-solving.",
+    "pictureURL": "https://i.ibb.co/NnHDpVv2/banner.jpg",
+    "subCategory": "Building Blocks"
+  },
+  {
+    "toyId": 2,
+    "toyName": "Remote Control Racer",
+    "sellerName": "Speedy Toys BD",
+    "sellerEmail": "hello@speedytoysbd.com",
+    "price": 29.5,
+    "rating": 4.3,
+    "availableQuantity": 40,
+    "description": "Fast, durable RC car with responsive steering—great for indoor and outdoor play.",
+    "pictureURL": "https://i.ibb.co/0g3kfYN/pngtree-vibrant-display-of-educational-wooden-toys-for-babies-and-kids-on-image-3838758.jpg",
+    "subCategory": "Vehicles"
+  },
+  {
+    "toyId": 3,
+    "toyName": "Wooden Rainbow Stacker",
+    "sellerName": "Little Hands Shop",
+    "sellerEmail": "support@littlehands.shop",
+    "price": 19.99,
+    "rating": 4.8,
+    "availableQuantity": 60,
+    "description": "Eco-friendly wooden stacker that builds color recognition and motor skills.",
+    "pictureURL": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=1200&auto=format&fit=crop",
+    "subCategory": "Montessori"
+  },
+  {
+    "toyId": 4,
+    "toyName": "Plush Teddy Bear",
+    "sellerName": "Softies Corner",
+    "sellerEmail": "care@softiescorner.com",
+    "price": 14.0,
+    "rating": 4.5,
+    "availableQuantity": 120,
+    "description": "Ultra-soft plush bear, perfect for bedtime cuddles and pretend play.",
+    "pictureURL": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop",
+    "subCategory": "Stuffed Animals"
+  },
+  {
+    "toyId": 5,
+    "toyName": "Magnetic Tiles Set",
+    "sellerName": "Build & Play",
+    "sellerEmail": "team@buildnplay.com",
+    "price": 39.99,
+    "rating": 4.9,
+    "availableQuantity": 80,
+    "description": "STEM-friendly magnetic tiles for building towers, cars, and creative shapes.",
+    "pictureURL": "https://i.ibb.co/0g3kfYN/pngtree-vibrant-display-of-educational-wooden-toys-for-babies-and-kids-on-image-3838758.jpg",
+    "subCategory": "STEM"
+  },
+  {
+    "toyId": 6,
+    "toyName": "Dollhouse Cottage",
+    "sellerName": "MiniWorld Local",
+    "sellerEmail": "hi@miniworld.local",
+    "price": 59.0,
+    "rating": 4.6,
+    "availableQuantity": 25,
+    "description": "Two-story wooden dollhouse with furniture set and opening doors.",
+    "pictureURL": "https://i.ibb.co/9mfqJLbb/0ce27aaca629ac2ca2defeba51efe8e2.jpg",
+    "subCategory": "Dolls & Houses"
+  },
+  {
+    "toyId": 7,
+    "toyName": "Alphabet Learning Board",
+    "sellerName": "EduToys Dhaka",
+    "sellerEmail": "info@edutoysdhaka.com",
+    "price": 12.5,
+    "rating": 4.2,
+    "availableQuantity": 150,
+    "description": "Colorful alphabet board to boost early literacy and letter recognition.",
+    "pictureURL": "https://images.unsplash.com/photo-1596495578065-8ae9d9a12097?q=80&w=1200&auto=format&fit=crop",
+    "subCategory": "Educational"
+  },
+  {
+    "toyId": 8,
+    "toyName": "Foam Soccer Ball",
+    "sellerName": "Play Outside",
+    "sellerEmail": "play@playoutside.store",
+    "price": 9.99,
+    "rating": 4.0,
+    "availableQuantity": 200,
+    "description": "Soft foam ball, safe for indoor kicks and backyard games.",
+    "pictureURL": "https://images.unsplash.com/photo-1542482378-17157f2b1b06?q=80&w=1200&auto=format&fit=crop",
+    "subCategory": "Sports"
+  },
+  {
+    "toyId": 9,
+    "toyName": "Space Explorer Puzzle (100 pcs)",
+    "sellerName": "Puzzle Planet",
+    "sellerEmail": "contact@puzzleplanet.shop",
+    "price": 11.75,
+    "rating": 4.4,
+    "availableQuantity": 90,
+    "description": "Bright space-themed jigsaw puzzle that builds focus and patience.",
+    "pictureURL": "https://i.ibb.co/SDJ20wyw/instantly-2025-10-28.png",
+    "subCategory": "Puzzles"
+  },
+  {
+    "toyId": 10,
+    "toyName": "Kids Drum Set",
+    "sellerName": "Sound & Play",
+    "sellerEmail": "music@soundnplay.com",
+    "price": 34.99,
+    "rating": 4.1,
+    "availableQuantity": 55,
+    "description": "Starter drum kit for kids—great for rhythm practice and noisy fun!",
+    "pictureURL": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop",
+    "subCategory": "Music"
+  }
+]

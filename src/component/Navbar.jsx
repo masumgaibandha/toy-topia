@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import { BounceLoader, ClockLoader } from "react-spinners";
 
 const Navbar = () => {
-  const { user, signOutWithUserFunc, setUser, loading, setLoading } = use(AuthContext);
-  console.log(user);
+  const { user, signOutWithUserFunc, setUser, loading, setLoading } =
+    use(AuthContext);
 
   const handleLogout = () => {
     signOutWithUserFunc()
@@ -22,61 +22,59 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-base-100 shadow">
+    <div className="bg-[#FFF3F1] shadow mb-10 rounded">
       <MyContainer>
-        <div className="flex justify-between items-center p-5">
-          <div>
-            <MyLink to={"/"}>
-              <h1 className="text-2xl font-bold text-[#EA4A30]">ToyTopia</h1>
-            </MyLink>
-          </div>
-          <div className="flex gap-10 items-center text-xl font-semibold">
-            <MyLink to={"/"}>Home</MyLink>
-            <MyLink to={"/about"}>About</MyLink>
-            <MyLink to={"/profile"}>Profile</MyLink>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 md:p-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:justify-start w-full md:w-auto gap-4">
+            <div>
+              <MyLink to={"/"}>
+                <h1 className="text-xl sm:text-2xl font-bold text-[#EA4A30]">
+                  ToyTopia
+                </h1>
+              </MyLink>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-8 text-base sm:text-xl font-semibold">
+              <MyLink to={"/"}>Home</MyLink>
+              {user && <MyLink to={"/profile"}>My Profile</MyLink>}
+            </div>
           </div>
 
-          {loading ? (<ClockLoader color="#EA4A30" />) : user ? (
-            <div className="text-center space-y-3 mt-5">
-              
+          {loading ? (
+            <div className="flex md:justify-end">
+              <ClockLoader color="#EA4A30" size={24} />
+            </div>
+          ) : user ? (
+            <div className="relative flex items-center gap-3 md:justify-end">
               <button
                 className=""
                 popoverTarget="popover-1"
-                style={
-                  { anchorName: "--anchor-1" } /* as React.CSSProperties */
-                }
+                style={{ anchorName: "--anchor-1" }}
               >
-              <img
-                src={user.photoURL || "https://i.ibb.co/fYhsqxNB/Masum2.jpg"}
-                alt=""
-                className="h-[40px] w-[40px] rounded-full mx-auto"
-              />
+                <img
+                  src={user.photoURL || "https://i.ibb.co/fYhsqxNB/Masum2.jpg"}
+                  alt=""
+                  className="h-[40px] w-[40px] rounded-full"
+                />
               </button>
-
               <div
                 className="dropdown menu w-52 rounded-box bg-base-100 shadow-sm"
                 popover="auto"
                 id="popover-1"
-                style={
-                  { positionAnchor: "--anchor-1" } /* as React.CSSProperties */
-                }
+                style={{ positionAnchor: "--anchor-1" }}
               >
-                  <h2 className="text-xl font-semibold">{user?.displayName}</h2>
-              <p className="">{user?.email}</p>
-              <button
-                onClick={handleLogout}
-                className="btn bg-[#EA4A30] w-full rounded text-white"
-                
-              >
-                Log Out
-              </button>
-
+                <h2 className="text-xl font-semibold">{user?.displayName}</h2>
+                <p className="break-all">{user?.email}</p>
+                <button
+                  onClick={handleLogout}
+                  className="btn bg-[#EA4A30] w-full rounded text-white"
+                >
+                  Log Out
+                </button>
               </div>
-
             </div>
           ) : (
-            <div>
-              <button className="btn bg-[#EA4A30] text-white w-30 text-xl font-semibold">
+            <div className="flex md:justify-end">
+              <button className="btn bg-[#EA4A30] text-white text-base sm:text-xl font-semibold">
                 <Link to="/login">Login</Link>
               </button>
             </div>
