@@ -1,39 +1,31 @@
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  updateProfile,
-} from "firebase/auth";
-import React, { use, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
-import { FaEye, FaRegEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
-import { AuthContext } from "../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
   const [show, setShow] = useState(false);
-  const { createUserWithEmailAndPasswordFunc, 
-    signWithEmailFunc, 
-    updateProfileFunc, 
-    sendEmailVerificationFunc,
+  const {
+    createUserWithEmailAndPasswordFunc,
+    signWithEmailFunc,
+    updateProfileFunc,
     setLoading,
-    signOutWithUserFunc, 
+    signOutWithUserFunc,
     setUser,
-
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    const displayName = e.target.name?.value;
-    const photoURL = e.target.photo?.value;
-    const email = e.target.email?.value;
-    const password = e.target.password?.value;
 
-    
+    const displayName = e.target.name?.value?.trim();
+    const photoURL = e.target.photo?.value?.trim();
+    const email = e.target.email?.value?.trim();
+    const password = e.target.password?.value;
 
     const regExp = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!regExp.test(password)) {
@@ -43,57 +35,39 @@ const Register = () => {
       return;
     }
 
-    createUserWithEmailAndPasswordFunc(email, password)
-      .then((res) => {
+    setLoading(true);
+    try {
+      const res = await createUserWithEmailAndPasswordFunc(email, password);
+      await updateProfileFunc(displayName, photoURL);
 
-        updateProfileFunc(displayName, photoURL)
-          .then(() => {
-            // Email verification
-            sendEmailVerificationFunc()
-              .then((res) => {
-                
-                setLoading(false);
-                
+      toast.success("Register Successful. Please login to continue.");
 
-                signOutWithUserFunc()
-                      .then(() => {
-                        toast.success("Register Successful");
-                        setUser(null);
-                        navigate("/login")
+      await signOutWithUserFunc();
+      setUser(null);
 
-                      })
-
-              })
-              .catch((e) => {
-                toast.error(e.message);
-              });
-            // Verification ended
-
-            // toast.success("Register Successful");
-          })
-          .catch((e) => {
-            toast.error(e.message);
-          });
-      })
-      .catch((e) => {
-        
+      e.target.reset();
+      navigate("/login", { replace: true });
+    } catch (err) {
+      if (err?.code === "auth/email-already-in-use") {
         toast.error("User already registered");
-      });
+      } else {
+        toast.error(err?.message || "Registration failed");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-const handleGoogleLogin = () => {
-  signWithEmailFunc()
-    .then((res) => {
-      toast.success("Register Successful with Google");
-     
-      navigate("/")
-    })
-    .catch((e) => {
-     
-      toast.error("Google Sign-In Failed");
-      
-    });
-};
+  const handleGoogleLogin = () => {
+    signWithEmailFunc()
+      .then(() => {
+        toast.success("Register Successful with Google");
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Google Sign-In Failed");
+      });
+  };
 
   return (
     <div>
@@ -101,10 +75,8 @@ const handleGoogleLogin = () => {
         onSubmit={handleRegister}
         className="container mx-auto py-5 flex justify-center min-h-screen items-center"
       >
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-5 ">
-          <h2 className="text-2xl font-bold text-center">
-            Register your account
-          </h2>
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-5">
+          <h2 className="text-2xl font-bold text-center">Register your account</h2>
           <div className="card-body relative">
             <fieldset className="fieldset">
               <label className="label">Your Name</label>
@@ -115,7 +87,7 @@ const handleGoogleLogin = () => {
                 placeholder="Enter your name"
                 required
               />
-              {/* {nameError && <p className='text-error'>{nameError}</p>} */}
+
               <label className="label">Photo URL</label>
               <input
                 type="text"
@@ -150,10 +122,6 @@ const handleGoogleLogin = () => {
                 {show ? <FaEye size={18} /> : <IoEyeOff size={18} />}
               </span>
 
-              {/* <div className='flex gap-3 pt-3'>
-              <input type="checkbox"/>
-              <a className="link link-hover">Accept Term & Conditions</a>
-            </div> */}
               <button
                 type="submit"
                 className="btn bg-[#EA4A30] rounded text-white mt-4"
@@ -161,7 +129,6 @@ const handleGoogleLogin = () => {
                 Register
               </button>
 
-              {/* Google login button */}
               <button
                 type="button"
                 onClick={handleGoogleLogin}
