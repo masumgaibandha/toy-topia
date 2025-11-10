@@ -2,7 +2,7 @@ ToyTopia – A Local Kids Toy Store Platform
 
 ToyTopia is a playful online platform where families can explore, try, and support local toy sellers. Users can browse toys, view detailed info, and experience a smooth login-protected shopping flow.
 
-Live URL: https://your-live-site.netlify.app
+Live URL: https://github.com/masumgaibandha/toy-topia
 
 Purpose
 
@@ -65,3 +65,4 @@ react-spinners	Loading indicators
 tailwindcss	CSS utility framework
 daisyui	Tailwind UI components
 vite	Fast build tool and dev server
+
